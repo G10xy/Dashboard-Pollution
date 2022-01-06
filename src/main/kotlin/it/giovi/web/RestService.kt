@@ -1,38 +1,26 @@
 package it.giovi.web
 
+import it.giovi.web.model.ResponseApiWeatherData
 import org.springframework.beans.factory.annotation.Value
-import org.springframework.http.HttpHeaders
-import org.springframework.http.MediaType
+import org.springframework.scheduling.annotation.Async
 import org.springframework.stereotype.Service
-import org.springframework.web.reactive.function.client.WebClient
-import org.springframework.web.reactive.function.client.awaitBody
-import org.springframework.web.util.UriComponentsBuilder
+import org.springframework.web.client.RestTemplate
+import java.util.concurrent.CompletableFuture
 
-class RestService {
 
-    @Value("\${wheather.secret-key}")
-    val apiSecretKey: String = ""
+@Service
+class RestService(private val restTemplate: RestTemplate, @Value("\${appId}") private val appId: String) {
 
-    val client: WebClient
-
-    constructor() {
-        this.client = WebClient.create()
+    @Async
+    @Throws(InterruptedException::class)
+    fun getPollutionData(name:String, lat: Double, lon: Double): CompletableFuture<ResponseApiWeatherData> {
+        val url = "/air_pollution?lat=$lat&lon=$lon&appid=$appId"
+        val response = restTemplate.getForObject(url, ResponseApiWeatherData::class.java)
+        if (response != null) {
+            response.city=name
+        }
+        return CompletableFuture.completedFuture(response)
     }
 
 
-    suspend fun prova() : Collection<Pojo> {
-        val uri = UriComponentsBuilder
-            .fromUriString("http://api.openweathermap.org/geo/1.0/direct")
-            .queryParam("q", "{q}").queryParam("limit", "{limit}").queryParam("appId", "{appId}")
-            .build("Roma", "5", "157effbf03566be828f8c61b670654e2")
-
-        val response = client.get()
-            .uri(uri)
-            .accept(MediaType.APPLICATION_JSON)
-            .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
-            .retrieve()
-            .awaitBody<List<Pojo>>()
-
-        return response
-    }
 }
