@@ -2,18 +2,12 @@ package it.giovi.web.service
 
 import com.example.model.DashboardResponse
 import com.example.service.MapConverter
-import it.giovi.web.RestService
 import it.giovi.web.Utility
 import it.giovi.web.entity.City
 import it.giovi.web.model.ResponseApiWeatherData
 import org.mapstruct.factory.Mappers
 import org.springframework.stereotype.Service
-import java.time.LocalDateTime
-import java.util.*
 import java.util.concurrent.CompletableFuture
-import java.util.function.Supplier
-import java.util.stream.Collectors
-import java.util.stream.Stream
 
 
 @Service

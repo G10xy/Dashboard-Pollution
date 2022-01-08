@@ -20,6 +20,8 @@ public class Controller {
     
     @org.jetbrains.annotations.NotNull()
     @org.springframework.web.bind.annotation.GetMapping(value = {"/pollutionData"})
+    @io.swagger.v3.oas.annotations.responses.ApiResponses(value = {@io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", content = {@io.swagger.v3.oas.annotations.media.Content(mediaType = "application/json", array = @io.swagger.v3.oas.annotations.media.ArraySchema(schema = @io.swagger.v3.oas.annotations.media.Schema(implementation = com.example.model.DashboardResponse.class)))}, description = "Found pollution data"), @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "400", content = {@io.swagger.v3.oas.annotations.media.Content()}, description = "Bad request"), @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "404", content = {@io.swagger.v3.oas.annotations.media.Content()}, description = "Did not find any cities\' data")})
+    @io.swagger.v3.oas.annotations.Operation(summary = "Get all pollution data")
     public java.util.Collection<com.example.model.DashboardResponse> pollutionData() {
         return null;
     }
