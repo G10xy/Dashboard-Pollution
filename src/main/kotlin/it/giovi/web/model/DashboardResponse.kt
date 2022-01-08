@@ -14,7 +14,7 @@ data class DashboardResponse(
         maximum = "5"
     )
     @JsonProperty("aqi") var aqi: Int?,
-    @JsonProperty("date") var date: LocalDateTime?,
+    @JsonProperty("date") var date: String?,
     @JsonProperty("co") val co: Double,
     @JsonProperty("no") val no: Double,
     @JsonProperty("no2") val no2: Double,

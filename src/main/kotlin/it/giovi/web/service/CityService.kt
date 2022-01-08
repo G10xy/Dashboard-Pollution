@@ -25,7 +25,7 @@ class CityService(private var restService: RestService) {
         val responseResults = mutableListOf<DashboardResponse>()
 
         this.createFuturesRestCalls(cities).stream()
-            .map { obj: CompletableFuture<ResponseApiWeatherData> -> obj.join() }
+            .map { obj: CompletableFuture<ResponseApiWeatherData> -> obj.get() }
             .forEach { x ->
                 val response = mapConverter.pollutionDataDtoToResponse(x.list[0].components)
                 response.aqi= x.list[0].main.aqi

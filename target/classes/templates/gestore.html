@@ -1,11 +1,11 @@
 <!DOCTYPE html>
-<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+<html lang="it" xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard Pollution</title>
+    <title layout:title-pattern="$CONTENT_TITLE - $LAYOUT_TITLE">Gestore Sicurezza</title>
     <meta name="description" content=""/>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
@@ -17,63 +17,64 @@
     <link rel="stylesheet" href="https://unpkg.com/bootstrap-table@1.18.3/dist/bootstrap-table.min.css">
 </head>
 <body>
-
 <div id="toolbar" class="select" style="display: inline-flex">
     <select class="form-control">
-        <option value="all">Esporta tutto</option>
-        <option value="">Esporta righe nella pagina</option>
-        <option value="selected">Esporta righe selezionate</option>
+        <option value="all" th:text="#{export.all}"></option>
+        <option value="" th:text="#{export.page}">Esporta righe nella pagina</option>
+        <option value="selected" th:text="#{export.selected}">Esporta righe selezionate</option>
     </select>
-    <button class="btn btn-info btn-modal-title" data-bs-toggle="collapse"
-            data-bs-target="#collapseExample" aria-expanded="false" aria-controls="risorsaCollapse"><i
-            class="far fa-caret-square-down"></i></button>
-    <button class="btn btn-info btn-modal-title" onclick="showModalPost()" data-bs-target="#myModal"
-            aria-expanded="false"><i class="far fa-plus-square" title="Aggiungi Web Service"></i></button>
+    <button class="btn btn-info btn-modal-title" data-bs-toggle="collapse" data-bs-target="#collapseExample"
+            aria-expanded="false" aria-controls="risorsaCollapse"><i class="far fa-caret-square-down"></i></button>
+    <!--    <button class="btn btn-info btn-modal-title" onclick="showModalPost()" data-bs-target="#myModal" aria-expanded="false"><i class="fas fa-user-plus"></i></button>-->
 </div>
+
 <div>
-<table
-        id="table"
-        data-toggle="table"
-        class="table table-striped table-sm table-hover table-fixed table-responsive"
-        data-toolbar="#toolbar"
-        data-page-size="25"
-        data-locale="en-EN"
-        data-show-refresh="true"
-        data-show-export="true"
-        data-show-pagination-switch="true"
-        data-search="true"
-        data-page-list="[10, 50, 100]"
-        data-pagination="true"
-        data-visible-search="true"
-        data-click-to-select="true"
-        data-mobile-responsive="true"
-        data-check-on-init="true"
-        data-show-search-button="true"
-        data-show-search-clear-button="true"
-        data-total-field="count"
-        data-data-field="items"
-        data-auto-refresh="true"
-        data-auto-refresh-interval="3600"
-        data-url="/pollutionData">
+    <table
+            id="table"
+            data-toggle="table"
+            class="table table-striped table-sm table-hover table-fixed table-responsive"
+            data-toolbar="#toolbar"
+            data-page-size="25"
+            data-locale="it-IT"
+            data-show-refresh="true"
+            data-show-export="true"
+            data-show-pagination-switch="true"
+            data-search="true"
+            data-page-list="[25, 50, 100]"
+            data-pagination="true"
+            data-visible-search="true"
+            data-height=""
+            data-click-to-select="true"
+            data-mobile-responsive="true"
+            data-check-on-init="true"
+            data-show-search-button="true"
+            data-show-search-clear-button="true"
+            data-total-field="count"
+            data-data-field="items"
+            data-url="/gestoreSicurezza/utenti">
 
-    <thead class="table-dark">
-    <tr>
-        <th data-field="state">Select</th>
-        <th data-field="city" data-width="100" data-align="center" data-sortable="true">City</th>
-        <th data-field="date" data-sortable="true" data-align="center">Survey Date</th>
-        <th data-field="aqi" data-width="80" data-sortable="true" data-cell-style="aqiCellStyle" data-align="center">Air Quality Index</th>
-        <th data-field="co" data-sortable="true" data-align="center">Carbon monoxide μg/m3</th>
-        <th data-field="no" data-sortable="true" data-align="center">Nitrogen monoxide μg/m3</th>
-        <th data-field="no2" data-sortable="true" data-align="center">Nitrogen dioxide μg/m3</th>
-        <th data-field="o3" data-sortable="true" data-align="center">Ozone μg/m3</th>
-        <th data-field="so2" data-sortable="true" data-align="center">Sulphur dioxide μg/m3</th>
-        <th data-field="pm2_5" data-sortable="true" data-align="center">PM2_5 μg/m3</th>
-        <th data-field="pm10" data-sortable="true" data-align="center">PM 10 μg/m3</th>
-        <th data-field="nh3" data-sortable="true" data-align="center">Ammonia μg/m3</th>
-    </tr>
-    </thead>
+        <thead class="table-dark">
+        <tr>
+            <th data-field="state">Seleziona</th>
+            <th data-field="idUser" data-width="50" data-align="center" data-sortable="true"
+                th:text="#{table.security.idutente}"></th>
+            <th data-field="name" data-sortable="true" data-align="center" th:text="#{table.security.name}"></th>
+            <th data-field="surname" data-sortable="true" data-align="center" th:text="#{table.security.surname}"></th>
+            <th data-field="mail" data-align="center" data-sortable="true" th:text="#{table.security.mail}"></th>
+            <th data-field="status" data-align="center" data-sortable="true" data-formatter="stateFormatter"
+                th:text="#{table.security.status}"></th>
+            <th data-field="WS_List" data-formatter="seeWebServiceListFormatter" data-force-export="false"
+                data-align="center" data-events="operateEvents" th:text="#{table.security.wslist}"></th>
+            <th data-field="authKey" data-formatter="seeKeyFormatter" data-events="operateEvents"
+                data-force-export="false" data-align="center" th:text="#{table.security.authkey}"></th>
+            <th data-field="Modify" data-formatter="modifyFormatter" data-align="center" data-force-export="false"
+                data-events="operateEvents" th:text="#{table.security.modify}"></th>
+            <th data-field="Remove" data-formatter="removeFormatter" data-align="center" data-force-export="false"
+                data-events="operateEvents" th:text="#{table.security.remove}"></th>
+        </tr>
+        </thead>
 
-</table>
+    </table>
 </div>
 <script src="https://cdn.jsdelivr.net/npm/jquery/dist/jquery.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"
@@ -96,13 +97,16 @@
 <!--    <script src="https://cdn.jsdelivr.net/npm/tableexport.jquery.plugin@1.10.21/libs/jsPDF/jspdf.min.js"></script>-->
 <!--    <script src="https://cdn.jsdelivr.net/npm/tableexport.jquery.plugin@1.10.21/libs/jsPDF-AutoTable/jspdf.plugin.autotable.js"></script>-->
 <script>
+var $table = $('#table')
+
 function initTable() {
     $('#toolbar').find('select').change(function () {
       $('#table').bootstrapTable('destroy').bootstrapTable({
+        locale: $('#locale').val(),
         exportDataType: $(this).val(),
-        exportTypes: ['json', 'csv', 'txt', 'excel'],
+        exportTypes: ['json', 'xml', 'csv', 'txt', 'excel'],
         exportOptions: {
-        fileName: 'Pollution_Data' + new Date(Date.now()).toLocaleDateString()
+        fileName: 'Export_Utenti_' + new Date(Date.now()).toLocaleDateString()
       },
         columns: [
           {
@@ -127,22 +131,6 @@ function initTable() {
       })
     }).trigger('change')
   }
-
-function aqiCellStyle(value, row, index) {
-    var classes = [
-      'lightgreen',
-      'lightblue',
-      'lightyellow',
-      'lightorange',
-      'indianred'
-    ]
-    return {
-      css: {
-        background: classes[value-1]
-      }
-    }
-  }
-
 </script>
 </body>
 </html>

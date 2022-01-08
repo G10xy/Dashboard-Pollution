@@ -10,88 +10,36 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
+    <!--        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">-->
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css"
           integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
     <link rel="stylesheet" href="https://unpkg.com/bootstrap-table@1.18.3/dist/bootstrap-table.min.css">
-    <link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/dual-listbox/dist/dual-listbox.css'>
-    <!--    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>-->
-    <!--    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>-->
-    <!--    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet"/>-->
-
 </head>
 <body>
 
-<div id="dialog"
-     style="display: none; width: 30% !important; position: absolute; left: 45%; top: 55%; transform: translate(-35%, -35%);"
-     class="modal" tabindex="-1">
-    <div class="modal-content">
-        <div class="modal-header" style="color:white !important; background-color:#14b512 !important">
-            <span id="modalTitle"></span>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" onclick="closeModalDialog()"
-                    aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-            <span class="list-label"></span><span id="dialogBox"></span>
-        </div>
-    </div>
-</div>
-
-<div id="myModal" class="modal" aria-hidden="true">
-    <div class="modal-content">
-        <div class="modal-header">
-            <h5 class="modal-title" style="margin-left: 10%; display:inline-block;">Registrazione Nuovo Web Service</h5>
-            &nbsp;&nbsp; <span id="modalTile" style="display:inline-block"></span>
-            <button type="button" onclick="closeModal()" class="btn-close" data-bs-dismiss="modal"
-                    aria-label="Close"></button>
-        </div>
-        <form id="formNewWS" autocomplete="off" method="POST">
-            <div class="form-group">
-                <label for="inputNameWS"></label>
-                <input type="text" class="form-control" id="inputNameWS" placeholder="Nome Web Service">
-            </div>
-            <div class="form-group">
-                <label for="inputInfoCodeWS"></label>
-                <input type="text" class="form-control" id="inputInfoCodeWS" placeholder="Codice Informativo">
-            </div>
-            <div class="form-group">
-                <label for="inputDescriptionWS"></label>
-                <input type="text" class="form-control" id="inputDescriptionWS" placeholder="Descrizione">
-            </div>
-            <div class="form-group">
-                <label for="inputEndpointWS"></label>
-                <input type="text" class="form-control" id="inputEndpointWS" placeholder="Endpoint" required>
-            </div>
-            <button type="submit" style="margin-top: 3%; float: right" class="btn btn-info">Registra</button>
-        </form>
-        <!--            <div id="footer" class="modal-footer">-->
-        <!--            </div>-->
-    </div>
-</div>
-
 <div id="toolbar" class="select" style="display: inline-flex">
     <select class="form-control">
-        <option value="all" th:text="#{export.all}"></option>
-        <option value="" th:text="#{export.page}">Esporta righe nella pagina</option>
-        <option value="selected" th:text="#{export.selected}">Esporta righe selezionate</option>
+        <option value="all">Esporta tutto</option>
+        <option value="">Esporta righe nella pagina</option>
+        <option value="selected">Esporta righe selezionate</option>
     </select>
-    <button class="btn btn-info btn-modal-title" data-bs-toggle="collapse"
-            data-bs-target="#collapseExample" aria-expanded="false" aria-controls="risorsaCollapse"><i
-            class="far fa-caret-square-down"></i></button>
     <button class="btn btn-info btn-modal-title" onclick="showModalPost()" data-bs-target="#myModal"
             aria-expanded="false"><i class="far fa-plus-square" title="Aggiungi Web Service"></i></button>
 </div>
+<div>
 <table
         id="table"
         data-toggle="table"
         class="table table-striped table-sm table-hover table-fixed table-responsive"
         data-toolbar="#toolbar"
         data-page-size="25"
-        data-locale="it-IT"
+        data-locale="en-EN"
         data-show-refresh="true"
         data-show-export="true"
         data-show-pagination-switch="true"
         data-search="true"
-        data-page-list="[25, 50, 100]"
+        data-page-list="[10, 50, 100]"
         data-pagination="true"
         data-visible-search="true"
         data-click-to-select="true"
@@ -101,14 +49,16 @@
         data-show-search-clear-button="true"
         data-total-field="count"
         data-data-field="items"
+        data-auto-refresh="true"
+        data-auto-refresh-interval="3600"
         data-url="/pollutionData">
 
     <thead class="table-dark">
     <tr>
-        <th data-field="state">Seleziona</th>
-        <th data-field="city" data-width="100" data-align="center" data-sortable="true">Città</th>
-        <th data-field="date" data-sortable="true" data-align="center">Data Rilevazione</th>
-        <th data-field="aqi" data-sortable="true" data-align="center">Indice Qualità Aria</th>
+        <th data-field="state">Select</th>
+        <th data-field="city" data-width="100" data-align="center" data-sortable="true">City</th>
+        <th data-field="date" data-sortable="true" data-align="center">Survey Date</th>
+        <th data-field="aqi" data-width="80" data-sortable="true" data-cell-style="aqiCellStyle" data-align="center">Air Quality Index</th>
         <th data-field="co" data-sortable="true" data-align="center">Carbon monoxide μg/m3</th>
         <th data-field="no" data-sortable="true" data-align="center">Nitrogen monoxide μg/m3</th>
         <th data-field="no2" data-sortable="true" data-align="center">Nitrogen dioxide μg/m3</th>
@@ -117,12 +67,11 @@
         <th data-field="pm2_5" data-sortable="true" data-align="center">PM2_5 μg/m3</th>
         <th data-field="pm10" data-sortable="true" data-align="center">PM 10 μg/m3</th>
         <th data-field="nh3" data-sortable="true" data-align="center">Ammonia μg/m3</th>
-
     </tr>
     </thead>
 
 </table>
-
+</div>
 <script src="https://cdn.jsdelivr.net/npm/jquery/dist/jquery.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"
         integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p"
@@ -143,134 +92,14 @@
 <script src="https://cdn.jsdelivr.net/npm/tableexport.jquery.plugin@1.10.21/tableExport.min.js"></script>
 <!--    <script src="https://cdn.jsdelivr.net/npm/tableexport.jquery.plugin@1.10.21/libs/jsPDF/jspdf.min.js"></script>-->
 <!--    <script src="https://cdn.jsdelivr.net/npm/tableexport.jquery.plugin@1.10.21/libs/jsPDF-AutoTable/jspdf.plugin.autotable.js"></script>-->
-<script src='https://cdn.jsdelivr.net/npm/dual-listbox/dist/dual-listbox.min.js'></script>
-<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 <script>
-var modal = document.getElementById('myModal');
-var listOfSelectedUserToAssociate = [];
-var listOfSelectedGuidIdRisorsaToAssociate = [];
-var lang = readCookie('googtrans');
-
-var checkCookie = function() {
-    var lastCookie = getCookie('googtrans');
-    return function() {
-        hideFilterButtons();
-        var currentCookie = getCookie('googtrans');
-        if (currentCookie != lastCookie) {
-            lastCookie = currentCookie;
-            window.location.replace('mainPage?lang=' +  readCookie('googtrans'));
-        }
-    };
-}();
-
-window.setInterval(checkCookie, 1000);
-
-function getCookie(name) {
-  const value = `; ${document.cookie}`;
-  const parts = value.split(`; ${name}=`);
-  if (parts.length === 2) return parts.pop().split(';').shift();
-}
-function showModalPost(){
-    document.getElementById('myModal').style.overflow="hidden";
-    document.getElementById('myModal').style.display="block";
-}
-
-function hideFilterButtons(){
-    if($("#searchWsName").val() == "" && $("#searchWsDescription").val() == "" && $("#searchWsInfoCode").val() == "" && $("#searchWsEndPoint").val() == "")
-        $("#filterButtons").hide();
-}
-
-function showFilterButtons(){
-    $("#filterButtons").show();
-    $("#searchWsName").val() == "" ? $("#filterWsName").hide() : $("#filterWsName").show();
-    $("#searchWsDescription").val() == "" ? $("#filterWsDescription").hide() : $("#filterWsDescription").show();
-    $("#searchWsInfoCode").val() == "" ? $("#filterWsInfoCode").hide() : $("#filterWsInfoCode").show();
-    $("#searchWsEndPoint").val() == "" ? $("#filterWsEndPoint").hide() : $("#filterWsEndPoint").show();
-}
-
-function showModalUpdate(row){
-    document.getElementById('myModalUpdate').style.overflow="hidden";
-    document.getElementById('myModalUpdate').style.display="block";
-    document.getElementById('updateId').value=row.id;
-    document.getElementById('updateNameWS').value=row.nome;
-    document.getElementById('updateInfoCodeWS').value=row.infoCode;
-    document.getElementById('updateDescriptionWS').value=row.description;
-    document.getElementById('updateEndpointWS').value=row.endpoint;
-}
-
-$(document).ready(function() {
-<!--    $("#filterButtons").hide();-->
-    $("#headerSardegna").html('<object type="text/html" style="width: 100%; height: 50px;" data="http://stage.portalemobilita.sardegna.it/etlsharedrupal/loghi/app_header/Header.html"/>');
-    $("#formNewWS").submit(function (event) {
-    var formData = {
-      nome: $("#inputNameWS").val(),
-      infoCode: $("#inputInfoCodeWS").val(),
-      description: $("#inputDescriptionWS").val(),
-      endpoint: $("#inputEndpointWS").val()
-    };
-
-    $.ajax({
-      type: "POST",
-      url: "/gestoreServizi/nuovoWS",
-      data: JSON.stringify(formData),
-      contentType: "application/json",
-      success: function(data){
-            document.getElementById('myModal').style.display = "none";
-            showModalDialog('Registrazione Nuovo Web Service Corretta',data);
-            $table.bootstrapTable('refresh',{url:'./tableValues'})
-            },
-      error: function(){
-                   alert("Errore");
-            }
-    })
-    event.preventDefault();
-  });
-  $("#formUpdateWS").submit(function (event) {
-    var rowId = $("#updateId").val();
-    var formData = {
-      nome: $("#updateNameWS").val(),
-      infoCode: $("#updateInfoCodeWS").val(),
-      description: $("#updateDescriptionWS").val(),
-      endpoint: $("#updateEndpointWS").val()
-    };
-
-    $.ajax({
-      type: "PUT",
-      url: "/gestoreServizi/ws/"+rowId,
-      data: JSON.stringify(formData),
-      contentType: "application/json",
-      success: function(data){
-            document.getElementById('myModalUpdate').style.display = "none";
-            showModalDialog('Aggiornamento corretto del web service',data);
-            $table.bootstrapTable('refresh',{url:'./tableValues'})
-            },
-      error: function(){
-                   alert("Errore");
-            }
-    })
-    event.preventDefault();
-  });
-});
-
-$(function() {
-    $("#locale").val(readCookie('googtrans'))
-    initTable()
-    $('#locale').change(initTable)
-  })
-
 function initTable() {
     $('#toolbar').find('select').change(function () {
       $('#table').bootstrapTable('destroy').bootstrapTable({
-        locale: $('#locale').val(),
         exportDataType: $(this).val(),
-        exportTypes: ['json', 'xml', 'csv', 'txt', 'excel'],
+        exportTypes: ['json', 'csv', 'txt', 'excel'],
         exportOptions: {
-        fileName: 'Export_Utenti_' + new Date(Date.now()).toLocaleDateString(),
-        ignoreColumn: ['Remove', 'Modify', 'guidIdAssociatedList', 'userAssociatedList'],
-        jspdf: {orientation: 'p', unit: 'pt', format: 'a0',
-                                   margins: {left:10, right:10, top:20, bottom:20},
-                                   autotable: {styles: {fillColor: 'inherit', textColor: 'inherit'}, tableWidth:'auto'}
-                                  }
+        fileName: 'Pollution_Data' + new Date(Date.now()).toLocaleDateString()
       },
         columns: [
           {
@@ -296,351 +125,20 @@ function initTable() {
     }).trigger('change')
   }
 
-function closeModal() {
-    document.getElementById('inputNameWS').value="";
-    document.getElementById('inputInfoCodeWS').value="";
-    document.getElementById('inputDescriptionWS').value="";
-    document.getElementById('inputEndpointWS').value="";
-    modal.style.display = "none";
-}
-
-function closeModalUpdate() {
-    document.getElementById('updateId').value="";
-    document.getElementById('updateNameWS').value="";
-    document.getElementById('updateInfoCodeWS').value="";
-    document.getElementById('updateDescriptionWS').value="";
-    document.getElementById('updateEndpointWS').value="";
-    document.getElementById('myModalUpdate').style.display = "none";
-}
-
-function closeModalAddUser() {
-    document.getElementById('addUserModal').style.display = "none";
-    document.getElementsByClassName('modal-content').html="";
-    document.getElementsById('listBoxUsers').remove();
-    document.getElementsByClassName('listBoxUsers').html="";
-    document.getElementsByClassName('modal-content')="";
-    document.getElementsByClassName('listBoxUsers')="";
-    document.getElementsByClassName('dual-listbox')="";
-    document.getElementsByClassName('dual-listbox').html="";
-    document.getElementsByClassName('dual-listbox').remove();
-    document.getElementById('addUserModalTitle')="";
-    document.getElementById('addUserModalWsId')="";
-    document.getElementById('addUserModal').remove();
-}
-
-function closeModalAddDatasetRisorsa() {
-    document.getElementById('addDatasetRisorsa').style.display = "none";
-    document.getElementByClass('listBoxDatasetRisorsa')="";
-    document.getElementById('addDatasetRisorsa')="";
-    document.getElementById('addDatasetRisorsaModalWsId')="";
-}
-
-function showConfirmationDeleteModal(message, id){
-    $('#confermaRimozioneMessaggio').html(message);
-    $("#confermaRimozione").show();
-    $('#confermaRimozioneId').val(id);
-}
-
-function showModalDialog(title, message) {
-    $('#modalTitle').html(title);
-    $("#dialog").show();
-    $('#dialogBox').html(message);
-}
-
-function createUUIDv4() {
-  return ([1e7]+-1e3+-4e3+-8e3+-1e11).replace(/[018]/g, c =>
-    (c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> c / 4).toString(16)
-  );
-}
-
-function associateUserToWebService(){
-    var formData = {
-      idWs: $("#addUserModalWsId").text(),
-      usersToBeAssociated: listOfSelectedUserToAssociate
-    }
-
-    $.ajax({
-      type: "POST",
-      url: "/gestoreServizi/associateUsersToWs",
-      data: JSON.stringify(formData),
-      contentType: "application/json",
-      success: function(data){
-            showModalDialog('Modifiche avvenute con successo',data);
-            $table.bootstrapTable('refresh',{url:'./tableValues'})
-            },
-      error: function(){
-                   alert("Errore");
-            }
-    })
-
-}
-
-function associateDatasetRisorsaToWebService(){
-    var formData = {
-      idWs: $("#addDatasetRisorsaModalWsId").text(),
-      datasetRisorsaToBeAssociated: listOfSelectedGuidIdRisorsaToAssociate
-    }
-    $.ajax({
-      type: "POST",
-      url: "/gestoreServizi/associateDatasetRisorsaToWs",
-      data: JSON.stringify(formData),
-      contentType: "application/json",
-      success: function(data){
-            showModalDialog('Modifiche avvenute con successo',data);
-            $table.bootstrapTable('refresh',{url:'./tableValues'})
-            },
-      error: function(){
-                   alert("Errore");
-            }
-    })
-
-}
-function makeTableHTML(myArray) {
-    var result = "<table>";
-    for(var i=0; i<myArray.length; i++) {
-        result += "<tr>";
-        for(var j=0; j<myArray[i].length; j++){
-            result += "<td>"+myArray[i][j]+"</td>";
-        }
-        result += "</tr>";
-    }
-    result += "</table>";
-    return result;
-}
-
-function showModalDialogForWebServices(title, wsArray) {
-    $('#modalTitle').html(title);
-    var arrayLength = wsArray.length;
-    $('#dialogBox').html(makeTableHTML(wsArray));
-    $("#dialog").show();
-}
-
-function getAllDrupalUsersToAssociate(idWs){
-    var listOfDrupalUsers = []
-    const data = axios.get('/gestoreServizi/allAssociableUsers?idWs='+idWs)
-        .then(response => response.data.map(x => listOfDrupalUsers.push({text: x.mail, value: x.uid, selected: x.selected})));
-    return listOfDrupalUsers;
-}
-
-function getAllDatasetRisorsaToAssociate(idWs){
-    var listOfDatasetRisorsa = []
-    const data = axios.get('/gestoreServizi/allAssociableDatasetRisorsa?idWs='+idWs)
-        .then(response => response.data.map(x => listOfDatasetRisorsa.push({text: x.datasetRisorsa, value: x.datasetRisorsa, selected: x.selected})));
-    return listOfDatasetRisorsa;
-}
-
-function addUserFormatter(value, $element, row) {
-    return '<button type="button" class="btn btn-outline-primary updateUser" data-bs-toggle="tooltip" data-bs-placement="left" title="Aggiungi nuovo web service"><i class="fa fa-eye" aria-hidden="true"></i></button>';
-}
-
-function modifyFormatter(value, $element, row) {
-    return '<button type="button" class="btn btn-outline-primary updateWS" data-bs-toggle="tooltip" data-bs-placement="left" title="Modifica Web Service"><i class="fa fa-eye" aria-hidden="true"></i></button>';
-}
-
-function addGuidIdFormatter(value, $element, row) {
-    return '<button type="button" class="btn btn-outline-primary guidIdRisorsaList" data-bs-toggle="tooltip" data-bs-placement="left" title="Modifica Risorse Associate"><i class="fa fa-eye" aria-hidden="true"></i></button>';
-}
-
-function removeFormatter(value, $element, row) {
-    return '<button type="button" class="btn btn-outline-primary trashWs" data-bs-toggle="tooltip" data-bs-placement="left" title="Rimuovi Web Service"><i class="fas fa-trash" aria-hidden="true"></i></button>';
-}
-
-function seeWebServiceListFormatter(value, $element, row) {
-    return '<button type="button" class="btn btn-outline-primary keyWsList" data-bs-toggle="tooltip" data-bs-placement="left" title="Mostra Lista Web Service"><i class="fa fa-eye" aria-hidden="true"></i></button>';
-}
-
-window.operateEvents = {
-    'click .trashWs': function (e, value, row, index) {
-        showConfirmationDeleteModal("Conferma rimozione web service " + row.nome, row.id);
-    },
-    'click .keyWsList': function (e, value, row, index) {
-        let title = 'Servizi Associati all\'utente con Id ' + row.idUser;
-        showModalDialogForWebServices(title, row.wsList);
-    },
-    'click .updateUser': function (e, value, row, index) {
-        let listOfMail = getAllDrupalUsersToAssociate(row.id);
-        listOfSelectedUserToAssociate=[];
-        setTimeout(function(){
-             $('.listBoxUsers').html("");
-             var dualListboxUsers = new DualListbox('#listBoxUsers', {
-                addEvent: function(value) {
-                    listOfSelectedUserToAssociate.push(value);
-                },
-                removeEvent: function(value) {
-                    listOfSelectedUserToAssociate=listOfSelectedUserToAssociate.filter(uid => uid!=value);
-                },
-                searchPlaceholder: 'Cerca',
-                availableTitle: 'Utenti Con Chiave',
-                selectedTitle: 'Utenti Associati',
-                addButtonText: 'Aggiungi',
-                removeButtonText: 'Rimuovi',
-                addAllButtonText: 'Aggiunti tutti',
-                removeAllButtonText: 'Rimuovi tutti',
-                options: listOfMail
-            });
-            for (let i = 0; i < listOfMail.length; i++) {
-                if(listOfMail[i].selected){
-                    listOfSelectedUserToAssociate.push(listOfMail[i].value);
-                }
-            }
-            $('#addUserModalTitle').text(row.nome);
-            $('#addUserModalWsId').text(row.id);
-            document.getElementById('addUserModal').style.overflow="hidden";
-            document.getElementById('addUserModal').style.display="block";
-         }, 1000);
-    },
-    'click .guidIdRisorsaList': function (e, value, row, index) {
-        let listOfGuidIdRisorsa = getAllDatasetRisorsaToAssociate(row.id);
-        listOfSelectedGuidIdRisorsaToAssociate=[];
-        setTimeout(function(){
-          $('.listBoxDatasetRisorsa').html("");
-             let dualListboxDatasetRisorsa = new DualListbox('#listBoxDatasetRisorsa', {
-                addEvent: function(value) {
-                    listOfSelectedGuidIdRisorsaToAssociate.push(value);
-                },
-                removeEvent: function(value) {
-                    listOfSelectedGuidIdRisorsaToAssociate=listOfSelectedGuidIdRisorsaToAssociate.filter(risorsa => risorsa!=value);
-                },
-                searchPlaceholder: 'Cerca',
-                availableTitle: 'Risorse Associabili',
-                selectedTitle: 'Risorse Associate',
-                addButtonText: 'Aggiungi',
-                removeButtonText: 'Rimuovi',
-                addAllButtonText: 'Aggiunti tutti',
-                removeAllButtonText: 'Rimuovi tutti',
-                options: listOfGuidIdRisorsa
-            });
-            for (let i = 0; i < listOfGuidIdRisorsa.length; i++) {
-                if(listOfGuidIdRisorsa[i].selected){
-                    listOfSelectedGuidIdRisorsaToAssociate.push(listOfGuidIdRisorsa[i].value);
-                }
-            }
-            $('#addDatasetRisorsaModalTitle').text(row.nome);
-            $('#addDatasetRisorsaModalWsId').text(row.id);
-            document.getElementById('addDatasetRisorsa').style.overflow="hidden";
-            document.getElementById('addDatasetRisorsa').style.display="block";
-         }, 1000);
-    },
-    'click .updateWS': function (e, value, row, index) {
-        showModalUpdate(row);
+function aqiCellStyle(value, row, index) {
+    var classes = [
+      'lightgreen',
+      'lightblue',
+      'lightyellow',
+      'lightorange',
+      'indianred'
+    ]
+    return {
+      css: {
+        background: classes[value-1]
+      }
     }
   }
-
-function createOpendataList(arrayOfOpendata){
-    for (var i = 0; i < arrayOfOpendata.length; i++) {
-        $("#resOpendataList").append('<li class="list-group-item"><span class="list-label">Url: </span><span>'+arrayOfOpendata[i].resOpendata+'</span></li>');
-        $("#resOpendataTitleList").append('<li class="list-group-item"><span class="list-label">Title: </span><span>'+arrayOfOpendata[i].resOpendataTitle+'</span></li>');
-        $("#resOpendataFormatList").append('<li class="list-group-item"><span class="list-label">Format: </span><span>'+arrayOfOpendata[i].resOpendataFormat+'</span></li>');
-    }
-}
-
-function readCookie(name) {
-  var result = '';
-  var c = document.cookie.split('; '),
-  cookies = {}, i, C;
-  for (i = c.length - 1; i >= 0; i--) {
-      C = c[i].split('=');
-      cookies[C[0]] = C[1];
-   }
-   var lang = cookies[name] == undefined ? 'it' : cookies[name].split("/")[2];
-   switch (lang) {
-      case 'en':
-        result= "en-US";
-        break;
-      case 'it':
-        result="it-IT";
-        break;
-      case 'fr':
-        result="fr-FR";
-        break;
-      default:
-        result="it-IT";
-      }
-   return result;
-}
-function closeModalRimozione(){
-    document.getElementById('confermaRimozione').style.display = "none";
-}
-
-function closeModalDialog(){
-    document.getElementById('dialog').style.display = "none";
-    document.getElementById('dialogBox').html("");
-}
-
-function removeWebService() {
-    let id = $("#confermaRimozioneId").val();
-    $.ajax({
-            type:"DELETE",
-            crossDomain: true,
-            url:'/gestoreServizi/ws/'+id,
-            success: function(data){
-                   showModalDialog('Web Service Cancellato Correttamente');
-                   closeModalRimozione();
-                   $table.bootstrapTable('refresh',{url:'./tableValues'})
-            },
-            error: function(textStatus, errorThrown){
-                   showModalDialog('Rimozione Web Service', textStatus);
-            }
-         })
-}
-
-$(".btn-modal-title").click(function(){
-    if($(this).children().hasClass('far fa-caret-square-down')) {
-        $(this).children().removeClass("far fa-caret-square-down");
-        $(this).children().addClass("far fa-caret-square-up");
-    }
-    else {
-        $(this).children().removeClass('far fa-caret-square-up');
-        $(this).children().addClass("far fa-caret-square-down");
-    }
-});
-
-function removeAdvancedFilter(event){
-    let button = event.id;
-    switch (button) {
-      case 'filterWsNameRemove':
-        $("#searchWsName").val("");
-        searchAdvancedFilters();
-        break;
-      case 'filterWsDescriptionRemove':
-        $("#searchWsDescription").val("");
-        searchAdvancedFilters();
-        break;
-      case 'filterWsInfoCodeRemove':
-        $("#searchWsInfoCode").val("");
-        searchAdvancedFilters();
-        break;
-      case 'filterWsEndPointRemove':
-        $("#searchWsEndPoint").val("");
-        searchAdvancedFilters();
-        break;
-    }
-}
-
-var $table = $('#table')
-var $button = $('#advSearch')
-
-function searchAdvancedFilters(){
-        var wsName = $("#searchWsName").val();
-        var wsDescription = $("#searchWsDescription").val();
-        var wsInfoCode = $("#searchWsInfoCode").val();
-        var wsEndPoint = $("#searchWsEndPoint").val();
-      $table.bootstrapTable('refresh',{
-        url:'./tableValues?wsName=' + wsName + '&wsDescription=' + wsDescription + '&wsInfoCode=' + wsInfoCode + '&wsEndPoint=' + wsEndPoint
-      })
-      showFilterButtons();
-}
-
-$(function() {
-    $('#advSearch').click(function () {
-        searchAdvancedFilters();
-    })
-  })
-
-$('#resetBtn').on('click', function() {
-    $('#table').bootstrapTable('destroy'); //Destroy bootstrap table
-    $('#table').bootstrapTable(); //Rebuild bootstrap table
-    });
 
 </script>
 </body>

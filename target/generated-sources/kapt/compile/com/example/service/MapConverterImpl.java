@@ -2,12 +2,11 @@ package com.example.service;
 
 import com.example.model.DashboardResponse;
 import it.giovi.web.model.PollutionData;
-import java.time.LocalDateTime;
 import javax.annotation.processing.Generated;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2022-01-08T16:55:20+0100",
+    date = "2022-01-08T17:45:59+0100",
     comments = "version: 1.4.2.Final, compiler: javac, environment: Java 11.0.13 (Oracle Corporation)"
 )
 public class MapConverterImpl implements MapConverter {
@@ -38,7 +37,7 @@ public class MapConverterImpl implements MapConverter {
 
         String city = null;
         Integer aqi = null;
-        LocalDateTime date = null;
+        String date = null;
 
         DashboardResponse dashboardResponse = new DashboardResponse( city, aqi, date, co, no, no2, o3, so2, pm2_5, pm10, nh3 );
 
