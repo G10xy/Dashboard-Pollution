@@ -1,4 +1,4 @@
-package it.giovi.web
+package it.giovi.configuration
 
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.boot.web.client.RestTemplateBuilder

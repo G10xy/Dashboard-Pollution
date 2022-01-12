@@ -1,4 +1,4 @@
-package it.giovi.web.service
+package it.giovi.service
 
 import it.giovi.web.model.ResponseApiWeatherData
 import org.springframework.beans.factory.annotation.Value
