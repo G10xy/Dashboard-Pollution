@@ -1,12 +1,11 @@
 package it.giovi.service
 
 import com.example.model.DashboardResponse
-import com.example.service.MapConverter
+import it.giovi.service.mapper.MapConverter
 import it.giovi.web.Utility
 import it.giovi.persistence.entity.CityEntity
 import it.giovi.persistence.repository.CityRepository
 import it.giovi.web.model.ResponseApiWeatherData
-import org.bson.types.ObjectId
 import org.mapstruct.factory.Mappers
 import org.springframework.stereotype.Service
 import java.util.concurrent.CompletableFuture

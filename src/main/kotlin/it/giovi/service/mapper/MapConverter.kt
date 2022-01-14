@@ -1,4 +1,4 @@
-package com.example.service
+package it.giovi.service.mapper
 
 import com.example.model.DashboardResponse
 import it.giovi.web.model.CityData
