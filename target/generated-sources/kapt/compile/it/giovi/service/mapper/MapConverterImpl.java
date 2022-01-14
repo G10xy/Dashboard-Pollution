@@ -1,4 +1,4 @@
-package com.example.service;
+package it.giovi.service.mapper;
 
 import com.example.model.DashboardResponse;
 import it.giovi.web.model.PollutionData;
@@ -6,8 +6,8 @@ import javax.annotation.processing.Generated;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2022-01-08T17:45:59+0100",
-    comments = "version: 1.4.2.Final, compiler: javac, environment: Java 11.0.13 (Oracle Corporation)"
+    date = "2022-01-14T22:03:53+0100",
+    comments = "version: 1.4.2.Final, compiler: javac, environment: Java 11.0.13 (Ubuntu)"
 )
 public class MapConverterImpl implements MapConverter {
 
