@@ -11,7 +11,7 @@ import java.util.concurrent.CompletableFuture
 @Service
 class RestService(private val restTemplate: RestTemplate, @Value("\${appId}") private val appId: String) {
 
-    @Async
+    @Async("threadPoolForData")
     @Throws(InterruptedException::class)
     fun getPollutionData(name:String, lat: Double, lon: Double): CompletableFuture<ResponseApiWeatherData> {
         val url = "/air_pollution?lat=$lat&lon=$lon&appid=$appId"

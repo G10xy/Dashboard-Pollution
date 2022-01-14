@@ -20,7 +20,7 @@ class AppConfig(@Value("\${api.uri}") var basicUri: String ) {
         .build()
 
 
-    @Bean
+    @Bean(name = ["threadPoolForData"])
     fun taskExecutor(): Executor {
         val executor = ThreadPoolTaskExecutor()
         executor.corePoolSize = 2
