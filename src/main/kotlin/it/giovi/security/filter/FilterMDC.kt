@@ -1,4 +1,4 @@
-package it.giovi.security
+package it.giovi.security.filter
 
 import org.slf4j.MDC
 import org.springframework.beans.factory.annotation.Value

@@ -1,4 +1,4 @@
-package it.giovi.security
+package it.giovi.security.filter
 
 import it.giovi.service.filter.FilterLoggingService
 import org.springframework.core.MethodParameter

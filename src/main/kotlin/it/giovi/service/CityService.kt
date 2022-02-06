@@ -5,19 +5,21 @@ import it.giovi.service.mapper.MapConverter
 import it.giovi.web.Utility
 import it.giovi.persistence.entity.CityEntity
 import it.giovi.persistence.repository.CityRepository
+import it.giovi.web.model.CityGeoInfo
 import it.giovi.web.model.ResponseApiWeatherData
 import org.mapstruct.factory.Mappers
+import org.springframework.security.core.Authentication
 import org.springframework.stereotype.Service
 import java.util.concurrent.CompletableFuture
 
 
 @Service
-class CityService(private var restService: RestService, private var repo: CityRepository) {
+class CityService(private var restService: RestService, private var cityRepo: CityRepository) {
 
     val mapConverter: MapConverter = Mappers.getMapper(MapConverter::class.java)
 
-    fun getData(): Collection<DashboardResponse> {
-        val cities= this.repo.findAll()
+    fun getData(authentication: Authentication): Collection<DashboardResponse> {
+        val cities = this.cityRepo.findAllByCreatedByUser(authentication.name)
         val responseResults = mutableListOf<DashboardResponse>()
 
         this.createFuturesRestCalls(cities).stream()
@@ -38,5 +40,9 @@ class CityService(private var restService: RestService, private var repo: CityRe
             futures.add(restService.getPollutionData(city.name, city.lat, city.lon))
         }
         return futures
+    }
+
+    fun lookForCity(word: String): Collection<CityGeoInfo>{
+        return restService.lookForCity(word)
     }
 }

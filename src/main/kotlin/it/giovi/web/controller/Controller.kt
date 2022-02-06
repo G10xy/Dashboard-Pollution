@@ -7,7 +7,9 @@ import io.swagger.v3.oas.annotations.media.Content
 import io.swagger.v3.oas.annotations.media.Schema
 import io.swagger.v3.oas.annotations.responses.ApiResponse
 import io.swagger.v3.oas.annotations.responses.ApiResponses
+import it.giovi.web.model.CityGeoInfo
 import org.springframework.http.MediaType
+import org.springframework.security.core.Authentication
 import org.springframework.web.servlet.ModelAndView
 
 interface Controller {
@@ -20,7 +22,16 @@ interface Controller {
             (Content(mediaType = MediaType.APPLICATION_JSON_VALUE, array = (
                     ArraySchema(schema = Schema(implementation = DashboardResponse::class)))))]),
         ApiResponse(responseCode = "400", description = "Bad request", content = [Content()]),
-        ApiResponse(responseCode = "404", description = "Did not find any cities' data", content = [Content()]),
         ApiResponse(responseCode = "500", description = "Internal Server", content = [Content()])]
-    )fun pollutionData() : Collection<DashboardResponse>
+    )fun pollutionData(authentication: Authentication) : Collection<DashboardResponse>
+
+
+    @Operation(summary = "Look for city of interest")
+    @ApiResponses(value = [
+        ApiResponse(responseCode = "200", description = "Found a list of cities", content = [
+            (Content(mediaType = MediaType.APPLICATION_JSON_VALUE, array = (
+                    ArraySchema(schema = Schema(implementation = CityGeoInfo::class)))))]),
+        ApiResponse(responseCode = "400", description = "Bad request", content = [Content()]),
+        ApiResponse(responseCode = "500", description = "Internal Server", content = [Content()])]
+    )fun lookForCity(cityName: String) : Collection<CityGeoInfo>
 }

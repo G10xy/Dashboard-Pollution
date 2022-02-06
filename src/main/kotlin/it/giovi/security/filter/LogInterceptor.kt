@@ -1,4 +1,4 @@
-package it.giovi.security
+package it.giovi.security.filter
 
 import it.giovi.service.filter.FilterLoggingService
 import org.springframework.http.HttpMethod
@@ -12,7 +12,7 @@ import javax.servlet.DispatcherType
 class LogInterceptor(private val filterLoggingService: FilterLoggingService) : HandlerInterceptor {
 
     override fun preHandle(request: HttpServletRequest, response: HttpServletResponse, handler: Any): Boolean {
-        if (DispatcherType.REQUEST.name.equals(request.dispatcherType.name)
+        if (DispatcherType.REQUEST.name == request.dispatcherType.name
             && request.method == HttpMethod.GET.name
         ) {
             filterLoggingService.logRequest(request, null)
