@@ -1,5 +1,6 @@
 package it.giovi
 
+import com.ulisesbocchio.jasyptspringboot.annotation.EnableEncryptableProperties
 import org.springframework.boot.CommandLineRunner
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
@@ -12,6 +13,7 @@ import java.util.concurrent.Executor
 
 @EnableAsync
 @EnableMongoRepositories(basePackages = ["it.giovi.persistence"])
+@EnableEncryptableProperties
 @SpringBootApplication
 class DashboardPollutionApplication
 
