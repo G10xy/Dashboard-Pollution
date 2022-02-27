@@ -34,4 +34,11 @@ interface Controller {
         ApiResponse(responseCode = "400", description = "Bad request", content = [Content()]),
         ApiResponse(responseCode = "500", description = "Internal Server", content = [Content()])]
     )fun lookForCity(cityName: String) : Collection<CityGeoInfo>
+
+    @Operation(summary = "Remove city from user's list of interest")
+    @ApiResponses(value = [
+        ApiResponse(responseCode = "200", description = "Correctly removed", content = [(Content(mediaType = MediaType.APPLICATION_JSON_VALUE))]),
+        ApiResponse(responseCode = "400", description = "Bad request", content = [Content()]),
+        ApiResponse(responseCode = "500", description = "Internal Server", content = [Content()])]
+    )fun removeCity(cityName: String, authentication: Authentication)
 }

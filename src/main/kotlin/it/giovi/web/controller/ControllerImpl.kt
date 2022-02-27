@@ -10,9 +10,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses
 import it.giovi.service.CityService
 import org.springframework.http.MediaType
 import org.springframework.security.core.Authentication
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.RequestParam
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.bind.annotation.*
 import org.springframework.web.servlet.ModelAndView
 
 @RestController
@@ -26,7 +24,6 @@ class ControllerImpl  (
         return ModelAndView("dashboard")
     }
 
-
     @GetMapping("/pollutionData")
     override fun pollutionData(authentication: Authentication) =
         cityService.getData(authentication)
@@ -35,4 +32,7 @@ class ControllerImpl  (
     override fun lookForCity(@RequestParam("cityName") cityName: String) =
         cityService.lookForCity(cityName)
 
+    @DeleteMapping("/cities/{city}")
+    override fun removeCity(@PathVariable("city") cityName: String, authentication: Authentication) =
+        cityService.removeCity(cityName, authentication)
 }

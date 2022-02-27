@@ -10,6 +10,7 @@ import it.giovi.web.model.ResponseApiWeatherData
 import org.mapstruct.factory.Mappers
 import org.springframework.security.core.Authentication
 import org.springframework.stereotype.Service
+import org.springframework.transaction.annotation.Transactional
 import java.util.concurrent.CompletableFuture
 
 
@@ -18,8 +19,8 @@ class CityService(private var restService: RestService, private var cityRepo: Ci
 
     val mapConverter: MapConverter = Mappers.getMapper(MapConverter::class.java)
 
-    fun getData(authentication: Authentication): Collection<DashboardResponse> {
-        val cities = this.cityRepo.findAllByCreatedByUser(authentication.name)
+    fun getData(user: Authentication): Collection<DashboardResponse> {
+        val cities = this.cityRepo.findOneByCreatedByUser(user.name).cities
         val responseResults = mutableListOf<DashboardResponse>()
 
         this.createFuturesRestCalls(cities).stream()
@@ -44,5 +45,12 @@ class CityService(private var restService: RestService, private var cityRepo: Ci
 
     fun lookForCity(word: String): Collection<CityGeoInfo>{
         return restService.lookForCity(word)
+    }
+
+    @Transactional
+    fun removeCity(cityName: String, user: Authentication) {
+        val entity = cityRepo.findOneByCreatedByUser(user.name)
+        entity.removeCity(cityName)
+        cityRepo.save(entity)
     }
 }

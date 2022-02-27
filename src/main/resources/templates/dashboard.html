@@ -18,6 +18,39 @@
     <link rel="stylesheet" href="https://unpkg.com/bootstrap-table@1.18.3/dist/bootstrap-table.min.css">
 </head>
 <body>
+<div id="confermaRimozione" class="modal" style="display: none; width: 30% !important; left: 35%; top: 30%;"
+     tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header" style="color:white !important; background-color:#c70039 !important">
+                <h4 class="modal-title" id="myModalLabel">Conferma Rimozione</h4>
+            </div>
+            <div class="modal-body">
+                <span id="confermaRimozioneId" style="display: none;"></span>
+                <span class="list-label"></span><span id="confermaRimozioneMessaggio"></span>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="confermaRimozione"
+                        onclick="closeModalRimozione()">Chiudi
+                </button>
+                <button type="button" class="btn btn-danger btn-ok" onclick="removeUser();">Conferma</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="dialog" style="display: none; width: 30% !important; left: 35%; top: 30%;" class="modal" tabindex="-1">
+    <div class="modal-content">
+        <div class="modal-header" style="color:white !important; background-color:#c70039 !important">
+            <span id="modalTitle"></span>
+            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" onclick="closeModalDialog()"
+                    aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <span class="list-label"></span><span id="dialogBox"></span>
+        </div>
+    </div>
+</div>
 
 <div>
     <div id="toolbar" style="display: inline-flex">
@@ -60,6 +93,7 @@
         <th data-field="pm2_5" data-sortable="true" data-align="center">PM2_5 μg/m3</th>
         <th data-field="pm10" data-sortable="true" data-align="center">PM 10 μg/m3</th>
         <th data-field="nh3" data-sortable="true" data-align="center">Ammonia μg/m3</th>
+        <th data-field="Remove" data-formatter="removeFormatter" data-align="center" data-force-export="false" data-events="operateEvents">Remove</th>
     </tr>
     </thead>
 
@@ -85,6 +119,16 @@
 <!--    <script src="https://cdn.jsdelivr.net/npm/tableexport.jquery.plugin@1.10.21/libs/jsPDF/jspdf.min.js"></script>-->
 <!--    <script src="https://cdn.jsdelivr.net/npm/tableexport.jquery.plugin@1.10.21/libs/jsPDF-AutoTable/jspdf.plugin.autotable.js"></script>-->
 <script>
+
+function removeFormatter(value, $element, row) {
+    return '<button type="button" style="float: center" class="btn btn-outline-primary trashUser" data-bs-toggle="tooltip" data-bs-placement="left" title="Remove from your list of interest"><i class="fas fa-trash" aria-hidden="true"></i></button>';
+}
+window.operateEvents = {
+    'click .trashUser': function (e, value, row, index) {
+        showConfirmationDeleteModal("Conferma rimozione " + row.city, row.city);
+    }
+  }
+
 function initTable() {
       $('#table').bootstrapTable('destroy').bootstrapTable({
         exportDataType: $(this).val(),
@@ -109,6 +153,42 @@ function aqiCellStyle(value, row, index) {
       }
     }
   }
+
+function removeUser() {
+    $.ajax({
+            type:"DELETE",
+            crossDomain: true,
+            url:'/cities/'+ $("#confermaRimozioneId").val(),
+            success: function(data){
+                   showModalDialog('Correctly removed');
+                   $('#table').bootstrapTable('refresh',{url:'./dashboard'})
+            },
+            error: function(textStatus, errorThrown){
+                   showModalDialog('Rimozione Chiave in Errore', textStatus);
+            }
+    })
+}
+
+function closeModalRimozione(){
+    document.getElementById('confermaRimozione').style.display = "none";
+}
+
+function closeModalDialog(){
+    document.getElementById('dialog').style.display = "none";
+    document.getElementById('dialogBox').html("");
+}
+
+function showModalDialog(title, message) {
+    $('#modalTitle').html(title);
+    $("#dialog").show();
+    $('#dialogBox').html(message);
+}
+
+function showConfirmationDeleteModal(message, cityName){
+    $('#confermaRimozioneMessaggio').html(message);
+    $("#confermaRimozione").show();
+    $('#confermaRimozioneId').val(cityName);
+}
 
 </script>
 </body>
